@@ -1,0 +1,21 @@
+{
+  "main": "index.html",
+  "chromium-args": "--disable-setuid-sandbox",
+  "name": "1pass",
+  "description": "Portable version of 1password that started as just a linux clone",
+  "version": "0.1.0",
+
+  "window": {
+    "title": "1Password",
+    "toolbar": false,
+    "show": false,
+    "position": "mouse",
+    "width": 1024,
+    "height": 768
+  },
+  "webkit": {
+    "plugin": false,
+    "java": false,
+    "page-cache": false
+  }
+}

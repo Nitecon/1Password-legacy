@@ -4,3 +4,4 @@ build/
 cache/
 .idea
 .build
+dist
