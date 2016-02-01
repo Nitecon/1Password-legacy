@@ -1,7 +1,7 @@
 {
-  "name": "gDrv",
   "version": "0.1.0",
-  "description": "gDrv is a google drive cross platform application to interface with google drive and sync data to your local machine.",
+  "name": "1password",
+  "description": "Portable version of 1password that started as just a linux clone",
   "dependencies": {},
   "main": "main.js",
   "author": "Will Hattingh",

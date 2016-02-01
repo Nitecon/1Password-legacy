@@ -1,12 +1,12 @@
 {
-  "name": "1pass",
+  "name": "1password",
   "description": "Portable version of 1password that started as just a linux clone",
   "version": "0.1.0",
   "author": "Will Hattingh",
   "license": "BSD-3 Revised",
   "repository": {
     "type": "git",
-    "url": "git://github.com/Nitecon/1pass.git"
+    "url": "https://github.com/Nitecon/1Password"
   },
   "devDependencies": {
     "electron-packager": "^5.2.0",
