@@ -1,21 +1,13 @@
 {
-  "main": "index.html",
-  "chromium-args": "--disable-setuid-sandbox",
-  "name": "1pass",
-  "description": "Portable version of 1password that started as just a linux clone",
+  "name": "gDrv",
   "version": "0.1.0",
-
-  "window": {
-    "title": "1Password",
-    "toolbar": false,
-    "show": false,
-    "position": "mouse",
-    "width": 1024,
-    "height": 768
-  },
-  "webkit": {
-    "plugin": false,
-    "java": false,
-    "page-cache": false
+  "description": "gDrv is a google drive cross platform application to interface with google drive and sync data to your local machine.",
+  "dependencies": {},
+  "main": "main.js",
+  "author": "Will Hattingh",
+  "license": "BSD-3 Revised",
+  "devDependencies": {
+    "electron-packager": "^5.2.0",
+    "electron-prebuilt": "*"
   }
 }
