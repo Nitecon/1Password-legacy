@@ -5,3 +5,5 @@ cache/
 .idea
 .build
 dist
+app/*.bin
+app/*.exe
