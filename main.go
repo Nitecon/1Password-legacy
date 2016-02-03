@@ -5,32 +5,52 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
-	"os/user"
 
-	"github.com/chzyer/logex"
+	"os"
+
+	"github.com/Nitecon/1Password/utils"
 	"github.com/julienschmidt/httprouter"
 )
 
-var (
-	passwordLoc = "/home/whatting/GoogleDrive/1Password.agilekeychain"
-)
-
-func handler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	basedir, _ := getUserData()
-	dataFileServer := http.FileServer(http.Dir(basedir))
+func show1PData(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	cfg := utils.GetConfig()
+	dataFileServer := http.FileServer(http.Dir(cfg.MainLocation))
 	if p.ByName("filepath") != "/" {
 		w.Header().Set("Vary", "Accept-Encoding")
 		w.Header().Set("Cache-Control", "public, max-age=60")
 		dataFileServer.ServeHTTP(w, r)
 		return
 	}
-	f, err := ioutil.ReadFile(basedir + "/1Password.html")
+	f, err := ioutil.ReadFile(fmt.Sprintf("%s%q%s", cfg.MainLocation, os.PathSeparator, "1Password.html"))
 	if err != nil {
-		fmt.Fprint(w, errorMessage)
+		fmt.Fprint(w, utils.HtmlErr)
 		return
 	}
 	fmt.Fprint(w, string(f))
+	return
+}
 
+func showSetConfData(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	tpl, err := utils.GetFileTpl("tpl/main_config.gohtml")
+	if err != nil {
+		w.Write([]byte("A critical error occurred, exiting: " + err.Error()))
+		os.Exit(1)
+	}
+	err = tpl.Execute(w, nil)
+	if err != nil {
+		w.Write([]byte("Could not execute template: " + err.Error()))
+	}
+	return
+}
+
+func handler(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	cfg := utils.GetConfig()
+	if !cfg.InitialConfig {
+		showSetConfData(w, r, p)
+		return
+	}
+
+	show1PData(w, r, p)
 	return
 }
 
@@ -40,35 +60,14 @@ func getRandPort() int {
 	return l.Addr().(*net.TCPAddr).Port
 }
 
-func getUserData() (basedir string, err error) {
-	usr, err := user.Current()
-	if err != nil {
-		return
-	}
-	logex.Println(usr.HomeDir)
-	basedir = passwordLoc
-	return
-}
-
 func main() {
+	err := utils.SetConfig()
+	if err != nil {
+		panic("Could not set base config: \n" + err.Error())
+	}
 	randPort := getRandPort()
-
 	router := httprouter.New()
 	router.GET("/*filepath", handler)
 	fmt.Printf("http://localhost:%d", randPort)
 	http.ListenAndServe(fmt.Sprintf(":%d", randPort), router)
-
 }
-
-var errorMessage = `
-<html>
-  <body>
-    <h2>An error occurrred!</h2>
-    <p>
-    <img height="50px" width="120px" src="http://i.imgur.com/DwFKI0J.png"/>
-    	Could not load home directory for user to get preferences.
-    </p>
-
-  </body>
-</html>
-`

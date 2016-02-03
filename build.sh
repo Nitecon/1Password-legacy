@@ -19,6 +19,8 @@ buildLinux64(){
     cd dist
     $appDir/node_modules/electron-packager/cli.js $appDir/app $APP_NAME --platform=linux --arch=x64 --version=$EVERS
     rm -rf $appDir/.build/
+    mkdir -p $appDir/static
+    cp -R 
     echo "Linux 64bit Binary built: $appDir/dist/1pass-linux-x64/1pass"
 }
 

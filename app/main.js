@@ -1,6 +1,7 @@
 'use strict';
 
-var app = require('app');
+const electron = require('electron');
+const app = electron.app;
 var BrowserWindow = require('browser-window');
 var path = require('path');
 var spawn = require('child_process').spawn;
@@ -36,14 +37,24 @@ var svr = null;
 var mainWindow = null;
 
 app.on('ready', function() {
+    var protocol = electron.protocol;
+    protocol.registerFileProtocol('onepassword4-extension', function(request, callback) {
+      var url = request.url.substr(7);
+      callback({path: path.normalize(__dirname + '/' + url)});
+    }, function (error) {
+      if (error)
+        console.error('Failed to register protocol')
+    });
+
+    /* For setting logo for other distros see: https://github.com/maxogden/electron-packager */
     mainWindow = new BrowserWindow({
         title: "1Password",
+        icon: 'images/logo.png',
         frame: true,
         resizable: true,
         height: 768,
         width: 1024
     });
-
     mainWindow.setMenu(null);
     //svr = spawn(tmpPath);
     svr = spawn(execPath.toString());

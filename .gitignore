@@ -7,3 +7,4 @@ cache/
 dist
 app/*.bin
 app/*.exe
+app/static
