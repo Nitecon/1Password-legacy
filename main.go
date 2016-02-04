@@ -35,7 +35,7 @@ func show1PData(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	f, err := ioutil.ReadFile(filepath.ToSlash(cfg.MainLocation + "/1Password.html"))
 	if err != nil {
 		log.Printf("Error reading 1password file: %s", err.Error())
-		fmt.Fprint(w, utils.HtmlErr)
+		fmt.Fprint(w, utils.HTMLErr)
 		return
 	}
 	fmt.Fprint(w, string(f))

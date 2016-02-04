@@ -64,6 +64,7 @@ func getUserConfigLoc() string {
 	return cfgLoc
 }
 
+// UpdateConfig writes the updated configuration data to the storage location.
 func UpdateConfig(conf Configuration) (err error) {
 	cfgDir, _ := getConfigDir()
 	d, err := json.Marshal(&conf)

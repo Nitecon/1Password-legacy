@@ -6,7 +6,8 @@ import (
 	"net/http"
 )
 
-const HtmlErr = `
+// HTMLErr is the standard http error page template for the application.
+const HTMLErr = `
 <html>
   <body>
     <h2>An error occurrred!</h2>
@@ -18,6 +19,7 @@ const HtmlErr = `
 </html>
 `
 
+// GetFileTpl parse a file and returns an executable html template or an error.
 func GetFileTpl(path string) (*template.Template, error) {
 	f, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -30,6 +32,7 @@ func GetFileTpl(path string) (*template.Template, error) {
 	return t, nil
 }
 
+// ExecTpl is a utility function to execute the template that may be removed shortly in the future.
 func ExecTpl(w http.ResponseWriter, tpl *template.Template, data interface{}) {
 	err := tpl.Execute(w, data)
 	if err != nil {
