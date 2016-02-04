@@ -3,6 +3,10 @@
 ![1Password_1](https://s3.amazonaws.com/nitecon/1Password/screenShots/1Password_1.png)
 ![1Password_2](https://s3.amazonaws.com/nitecon/1Password/screenShots/1Password_2.png)
 
+## Binary Downloads
+Currently only the following binaries are available, if you require additional binaries feel free to put in a ticket.
+- ![Linux 64bit Version](https://s3.amazonaws.com/nitecon/1Password/1pass-linux-x64.tar.gz)
+
 ## About 1Password
 This application was started due to the need for a linux 1Password client.  There currently is no other packages that even compare closely to the functionality.  As seen in the screenshots above this does work however currently it requires compilation / manipulation of the main.go file to indicate where the 1password files live.
 AND easy of use that 1Password provides.  I know there are many others like dashlane / lastpass / keypass etc and I've used them all, but none compares to 1password.
