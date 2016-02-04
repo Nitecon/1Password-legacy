@@ -9,12 +9,16 @@ import (
 	"path"
 	"runtime"
 	"sync"
+
+	"pkg/path/filepath"
+
+	"github.com/syndtr/goleveldb/leveldb/errors"
 )
 
 var (
 	config      *Configuration
 	configLock  = new(sync.RWMutex)
-	baseCfgPath = fmt.Sprintf("%q%s%q%s", os.PathSeparator, "Nitecon", os.PathSeparator, "1Password.json")
+	baseCfgPath = fmt.Sprintf("/%s/%s", "Nitecon", "1Password.json")
 	baseConfig  = `{"initial_setup": false, "main_location":""}`
 )
 
@@ -24,38 +28,50 @@ type Configuration struct {
 	MainLocation  string `json:"main_location"`
 }
 
-func getUserConfigLoc() string {
+func getConfigDir() (string, error) {
 	if runtime.GOOS == "windows" {
 		appData := os.Getenv("LOCALAPPDATA")
-		if _, err := os.Stat(appData + baseCfgPath); os.IsNotExist(err) {
-			err := os.MkdirAll(appData+path.Dir(baseCfgPath), 0775)
-			if err != nil {
-				panic("You do not have access to create configuration data as your user something is really wrong exiting...\n" + err.Error())
-			}
-			err = ioutil.WriteFile(appData+baseCfgPath, []byte(baseConfig), 0664)
-			if err != nil {
-				panic("Could not write default config as your user something is really wrong exiting...\n" + err.Error())
-			}
-
-		}
-		return appData + baseCfgPath
+		configPath := filepath.ToSlash(appData + path.Dir(baseCfgPath))
+		return configPath, nil
 	}
 	usr, err := user.Current()
 	if err != nil {
-		panic("You are not an actual user so I can't help you...\n" + err.Error())
+		return "", err
 	}
 	cfgLoc := usr.HomeDir + "/.config"
-	if _, err := os.Stat(cfgLoc + baseCfgPath); os.IsNotExist(err) {
-		err := os.MkdirAll(cfgLoc+path.Dir(baseCfgPath), 0775)
+	configPath := filepath.ToSlash(cfgLoc + path.Dir(baseCfgPath))
+	return configPath, nil
+}
+
+func getUserConfigLoc() string {
+	cfgDir, err := getConfigDir()
+	if err != nil {
+		// If this isn't a real user we panic out
+		panic(err)
+	}
+	cfgLoc := filepath.ToSlash(cfgDir + "/1Password.json")
+	if _, err := os.Stat(cfgLoc); os.IsNotExist(err) {
+		err := os.MkdirAll(cfgDir, 0775)
 		if err != nil {
 			panic("You do not have access to create configuration data as your user something is really wrong exiting...\n" + err.Error())
 		}
-		err = ioutil.WriteFile(cfgLoc+baseCfgPath, []byte(baseConfig), 0664)
+		err = ioutil.WriteFile(cfgLoc, []byte(baseConfig), 0664)
 		if err != nil {
 			panic("Could not write default config as your user something is really wrong exiting...\n" + err.Error())
 		}
+
 	}
-	return cfgLoc + baseCfgPath
+	return cfgLoc
+}
+
+func UpdateConfig(conf Configuration) (err error) {
+	cfgDir, _ := getConfigDir()
+	d, err := json.Marshal(&conf)
+	if err != nil {
+		return errors.New("Could not save new json config")
+	}
+	ioutil.WriteFile(cfgDir+"/1Password.json", d, 0664)
+	return nil
 }
 
 // SetConfig is used to load the user's configuration from disk which specifies where the vault lives etc.

@@ -11,5 +11,8 @@
   "devDependencies": {
     "electron-packager": "^5.2.0",
     "electron-prebuilt": "*"
+  },
+  "dependencies": {
+    "electron-debug": "^0.5.1"
   }
 }

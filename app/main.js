@@ -10,7 +10,6 @@ var platform = process.platform;
 
 var isWin = false;
 
-
 var execPath = path.dirname(process.execPath);
 // some base path is appended
 execPath = path.join(execPath, 'resources/app');
@@ -50,6 +49,7 @@ app.on('ready', function() {
     mainWindow = new BrowserWindow({
         title: "1Password",
         icon: 'images/logo.png',
+        'node-integration': false,
         frame: true,
         resizable: true,
         height: 768,

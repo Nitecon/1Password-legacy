@@ -1,0 +1,62 @@
+@mixin border-radius ( $value: 3px ) {
+  -webkit-border-radius: $value;
+  -moz-border-radius: $value;
+  border-radius: $value;
+  // keeps background from busting out of border
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+}
+/* Opacity usage:
+ @include opacity(0.8);
+ */
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  filter: alpha(opacity=$opacity-ie); //IE8
+}
+@mixin box-shadow( $horiz : .5em , $vert : .5em , $blur : 0px , $spread : 0px , $color : #000000 ){
+  -webkit-box-shadow: $horiz $vert $blur $spread $color;
+  -moz-box-shadow: $horiz $vert $blur $spread $color;
+  box-shadow: $horiz $vert $blur $spread $color;
+}
+
+@mixin full-shadow($sizeMin: 5px, $sizeMax: 9px, $color: #000000){
+  -webkit-box-shadow: -1px 1px $sizeMin $sizeMax $color;
+  -moz-box-shadow: -1px 1px $sizeMin $sizeMax $color;
+  box-shadow: -1px 1px $sizeMin $sizeMax $color;
+}
+
+/* BP usage:
+ @include bp-small {
+    width: 100%;
+    float: none;
+    margin: 0;
+  }
+  */
+@mixin bp-large {
+  @media only screen and (max-width: 60em) {
+    @content;
+  }
+}
+
+@mixin bp-medium {
+  @media only screen and (max-width: 40em) {
+    @content;
+  }
+}
+
+@mixin bp-small {
+  @media only screen and (max-width: 30em) {
+    @content;
+  }
+}
+@function calculateRem($size) {
+  $remSize: $size / 16px;
+  @return $remSize * 1rem;
+}
+
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
