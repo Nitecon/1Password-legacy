@@ -7,6 +7,12 @@
 Currently only the following binaries are available, if you require additional binaries feel free to put in a ticket.
 - [Linux 64bit Version](https://s3.amazonaws.com/nitecon/1Password/1pass-linux-x64.tar.gz)
 
+### Binary install / usage information
+If you downloaded one of the binaries above please follow these steps to run the application.
+- Extract the binary
+- Move the folder to whatever location you please and optionally create a symlink to the `<yourfolder>/1pass` file that resides in your path.
+- Run the `1pass` binary from cli with: `./1pass` or create a desktop link for it etc.
+
 ## About 1Password
 This application was started due to the need for a linux 1Password client.  There currently is no other packages that even compare closely to the functionality.  As seen in the screenshots above this does work however currently it requires compilation / manipulation of the main.go file to indicate where the 1password files live.
 AND easy of use that 1Password provides.  I know there are many others like dashlane / lastpass / keypass etc and I've used them all, but none compares to 1password.
