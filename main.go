@@ -5,14 +5,13 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"path/filepath"
 
 	"os"
 
 	"encoding/json"
 
 	"log"
-
-	"pkg/path/filepath"
 
 	"github.com/Nitecon/1Password/utils"
 	"github.com/julienschmidt/httprouter"
