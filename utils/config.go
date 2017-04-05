@@ -7,10 +7,9 @@ import (
 	"os"
 	"os/user"
 	"path"
+	"path/filepath"
 	"runtime"
 	"sync"
-
-	"pkg/path/filepath"
 
 	"github.com/syndtr/goleveldb/leveldb/errors"
 )
