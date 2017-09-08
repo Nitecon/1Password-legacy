@@ -1,8 +1,7 @@
 'use strict';
 
 const electron = require('electron');
-const app = electron.app;
-var BrowserWindow = require('browser-window');
+const {app, BrowserWindow} = electron;
 var path = require('path');
 var spawn = require('child_process').spawn;
 //var arch = process.arch;

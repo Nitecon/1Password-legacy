@@ -9,10 +9,10 @@
     "url": "https://github.com/Nitecon/1Password"
   },
   "devDependencies": {
-    "electron-packager": "^5.2.0",
+    "electron-packager": "^9.0.1",
     "electron-prebuilt": "*"
   },
   "dependencies": {
-    "electron-debug": "^0.5.1"
+    "electron-debug": "^1.4.0"
   }
 }
